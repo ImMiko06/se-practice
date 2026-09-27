@@ -1,0 +1,39 @@
+schema: 1
+week: "03"
+
+student:
+  name: Yelemes Meyirzhan
+  student_id: 24B031740
+  github: ImMiko06
+
+assistant:
+  tool: Claude.ai
+  model: Claude Sonnet 5
+
+counts:
+  user_stories: 7
+  acceptance_criteria_sets: 3
+
+checker:
+  pass: 23
+  fail: 0
+  error: 0
+  commit: TODO_short_sha
+
+assumptions:
+  overlap_touching_bookings: allowed
+  exactly_two_hours: allowed
+
+traceability:
+  use_cases_not_covered: []
+  stories_not_traced: []
+
+review_findings:
+  - "US-07 (confirmation story) originally read as if the Student triggers the confirmation; reworded so the assumption makes clear UC-06 is system-triggered, not actor-initiated."
+  - "UC-06 Send confirmation has no direct actor association in use-cases.puml on purpose: PU-6 checks that no person is shown triggering it, since the system sends it automatically after UC-02/UC-03."
+  - "Traceability gap: UC-01 (View availability) and UC-05 (Review usage) have zero acceptance criteria because only 3 of 7 stories were selected for Part 3, as the task requires; flagged in traceability.md rather than papering over it."
+  - "AC-08 is the only criterion covering UC-06 Send confirmation, and it only covers the cancellation-confirmation path, not the booking-confirmation path; noted as a weak spot in traceability.md."
+
+honesty:
+  can_explain_everything_submitted: yes
+  ai_usage_disclosed: yes
