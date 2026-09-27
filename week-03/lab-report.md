@@ -194,7 +194,7 @@ PASS   TR-3  traceability.md         every story appears in the table
 | --- | --- | --- | --- |
 | check_requirements.py | 23 | 0 | 0 |
 
-Commit these numbers were produced at (git rev-parse --short HEAD): WILL_FILL_AFTER_COMMIT
+Commit these numbers were produced at (git rev-parse --short HEAD): ee2f9f8
 
 **Every FAIL, one line each:** None — the run was clean (0 FAIL, 0 ERROR).
 
