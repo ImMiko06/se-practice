@@ -377,27 +377,117 @@ Six cases × four prompts. Verdicts are **PASS**, **FAIL** or **ERROR** only.
 
 **Prompt A**
 
-```
+**Prompt sent** (should be exactly one sentence):
 
 ```
+Write Python code to analyze student marks.
+```
+
+**Assumptions the AI made that I never gave it:**
+
+1. Input format: a hardcoded dictionary STUDENT_DATA (student name -> subject -> mark) with invented students (Alice, Bob, ...) and subjects (Math, Science, ...).
+2. Letter grades A+/A/B/C/D/F with thresholds 90/80/70/60/50 (an invented grading scale and an implicit pass line at 50).
+3. Extra features nobody asked for: class average, top and lowest student, per-subject averages, rounding to 2 decimals, and a formatted console report (print_report) run from __main__.
+4. No input validation at all: marks are not checked for range, type or emptiness (an empty dict would crash with ZeroDivisionError).
+
+**Questions it should have asked and did not:**
+
+1. What is the input (a plain list of marks, a dict per student, a file) and should the function return a result or print it?
+2. Which statistics are needed, what is the pass mark, and what should happen with invalid input (empty list, text, marks outside 0-100)?
+
+**Is the function named `analyze_marks` with the required signature?** no, the function is called `analyze_student_marks(data)`; there is no `analyze_marks` and no `pass_mark` parameter.
+
+**First impression before testing** (one sentence):
+
+<<write what you honestly thought when you first saw the output, e.g. "It looked impressive and complete, but it is a whole report program, not the function I had in mind.">>
 
 **Prompt B**
 
-```
+**Prompt sent:**
 
 ```
+You are a Python developer. Implement analyze_marks(marks, pass_mark=50). Return
+average, highest, lowest, and pass_rate in a dictionary. Accept marks from 0 to 100;
+raise ValueError for an empty list, non-numeric values, or out-of-range values. Use
+no external libraries. Return code plus a short explanation.
+```
+
+**What B fixed compared to A:**
+
+1. The function is now named analyze_marks(marks, pass_mark=50) and returns a dictionary with the four required keys (average, highest, lowest, pass_rate); all the invented data, grades and printing disappeared.
+2. Validation exists: ValueError for an empty list, for non-numeric values (including bool) and for marks outside 0-100.
+
+**What B still leaves open:**
+
+1. Rounding and format of pass_rate: B returns an unrounded 66.66666666666666 for case 1, while the example in the task shows 66.67.
+2. B includes no tests, so correctness is unverified by the code itself, and pass_mark is not validated (and it returns highest/lowest as floats, 80.0 instead of 80). <<add here if B's explanation stated assumptions or not>>
 
 **Prompt C**
 
-```
+**What I appended to Prompt B:**
 
 ```
+Example: analyze_marks([40, 60, 80], 50) → average 60, highest 80, lowest 40,
+pass_rate 66.67. Include tests for: one mark, decimals, custom pass_mark, empty list,
+text value, and marks below 0 or above 100. State any remaining assumptions before
+the code.
+```
+
+**Tests the AI wrote for itself:** 8 checks in a plain run_tests() function using assert (4 value checks and 4 error checks).
+
+| Situation | Covered by the AI's tests? |
+| --- | --- |
+| one mark | yes ([75]) |
+| decimals | yes ([45.5, 62.3, 88.8]) |
+| custom pass_mark | yes (pass_mark=70) |
+| empty list | yes |
+| text value | yes ("eighty") |
+| below 0 / above 100 | yes (-5 and 105) |
+
+**Do the AI's own tests pass against the AI's own code?** yes
+
+**Do they agree with the harness in section 6?** yes, C scored 6 PASS in the harness and its own tests print "All tests passed successfully!". The AI's tests share the author's assumptions, so agreement is expected and is not proof of correctness.
+
+**Assumptions C stated explicitly before the code:** <<copy them from the Gemini answer for Prompt C, or write "none stated" if there were none>>
 
 **Prompt D**
 
-```
+**The complete prompt I wrote** (one message, sent to a fresh chat):
 
 ```
+You are a Python developer. Implement analyze_marks(marks, pass_mark=50) using
+only the standard library.
+
+Return a dictionary with exactly these keys: "average", "highest", "lowest",
+"pass_rate".
+- average: arithmetic mean of the marks.
+- highest / lowest: max / min mark.
+- pass_rate: percentage (0-100) of marks that are >= pass_mark (a mark equal
+  to pass_mark passes), rounded to 2 decimal places.
+
+Validation: raise ValueError for an empty list, for any non-numeric value
+(strings such as "60" must be rejected, not converted; booleans are not
+valid marks), and for any mark below 0 or above 100.
+
+Example: analyze_marks([40, 60, 80], 50) -> {"average": 60.0, "highest": 80,
+"lowest": 40, "pass_rate": 66.67}
+Example: analyze_marks([49.5, 50], 50) -> {"average": 49.75, "highest": 50,
+"lowest": 49.5, "pass_rate": 50.0}
+
+Do not add a CLI, file reading, classes or any extra features.
+Include tests for: one mark, decimals, a custom pass_mark, an empty list,
+a text value, and marks below 0 or above 100.
+State any assumptions in one short list before the code.
+```
+
+**What I deliberately added that A, B and C did not have:**
+
+1. Exact key names and a rounding rule for pass_rate (percentage, 2 decimals).
+2. An explicit ">= passes" rule and an explicit rule that strings like "60" are rejected, not converted, and that booleans are invalid.
+3. A second worked example for the decimal case (49.5, 50) and a direct ban on extra scope (CLI, files, classes).
+
+**The ambiguity I found in the specification, and how I resolved it inside Prompt D:**
+The example says pass_rate 66.67, but the specification never says whether to round or whether pass_rate is a percentage or a fraction. Prompt B returned an unrounded 66.66666666666666 in case 1, which only passed because the harness tolerance is 0.01. In Prompt D I specified: a percentage from 0 to 100, rounded to 2 decimal places, where a mark equal to pass_mark passes (>=).
 
 ---
 
@@ -407,35 +497,23 @@ Six cases × four prompts. Verdicts are **PASS**, **FAIL** or **ERROR** only.
 
 | Criterion | A | B | C | D |
 | --- | --- | --- | --- | --- |
-| Correctness (cases passed) | | | | |
-| Requirement coverage | | | | |
-| Verifiability (tests) | | | | |
-| Assumptions stated | | | | |
-| Noise (2 = none) | | | | |
-| **Total / 10** | | | | |
+| Correctness (cases passed) | 0 (0/6) | 2 (6/6) | 2 (6/6) | 2 (6/6) |
+| Requirement coverage | 0 | 2 | 2 | 2 |
+| Verifiability (tests) | 0 | 0 | 2 | 2 |
+| Assumptions stated | <<0-2>> | <<0-2>> | <<0-2>> | <<0-2>> |
+| Noise (2 = none) | 0 | 2 | 1 | 1 |
+| **Total / 10** | 0 + <<A>> | 6 + <<B>> | 7 + <<C>> | 7 + <<D>> |
 
-**Prompt length, in words:** A ____ · B ____ · C ____ · D ____
+**Prompt length, in words:** A 7 · B 44 · C 84 · D 165
 
-**Words added per point gained** — B over A, C over B, D over C. One line on what that ratio says:
-
+**Words added per point gained** — B over A: +37 words for about +6 points. C over B: +40 words for about +1 point (tests gained, noise lost). D over C: +81 words for about 0 points. One line: almost all the value came from the first few lines of structure in B; after that, extra words bought verifiability and rounding, not correctness.
 ---
 
 ## 8. Conclusion — 150–200 words
-
-Answer in this order: (1) which prompt scored best, and whether it is the one you would actually
-use at work; (2) which single addition bought the most correctness, naming the exact case that
-changed verdict; (3) what was pure noise; (4) the ambiguity and your resolution.
-
-Name test cases and real returned values. "More detailed prompts work better" scores zero.
-
-```
-(150–200 words)
-
-
-
+Prompts B, C and D all scored 6/6 on the harness and A scored 0/6, so by correctness three prompts tie; by total score C and D lead, because B ships no tests. At work I would use a D-style prompt, but shorter. The addition that bought the most correctness was the exact signature in B: Prompt A produced analyze_student_marks(data), so the harness reported ERROR on all six cases (no callable analyze_marks), and case 1 changed from ERROR to PASS once B named analyze_marks(marks, pass_mark=50). The worked example in C changed one value: in case 1 B returned pass_rate=66.66666666666666, while C and D returned 66.67, although all three PASS within the 0.01 tolerance. Pure noise: C and D validate pass_mark in 0-100 and C turns whole highest/lowest values into int, neither requested; A added grades and a console report. The ambiguity was pass_rate: the example shows 66.67 but nothing says to round or whether it is a percentage. In Prompt D I specified a percentage rounded to 2 decimals, where a mark equal to pass_mark passes (>=).
 ```
 
-**Word count:**
+**Word count:177**
 
 ---
 
@@ -443,5 +521,5 @@ Name test cases and real returned values. "More detailed prompts work better" sc
 
 Written before class, answered in class.
 
-1.
-2.
+1. Prompts B, C and D all scored 6/6 even though the harness has only six cases. Which hidden cases (for example a mark exactly equal to pass_mark, or pass_mark=0) would separate them?
+2. If the AI's own tests always agree with its own code, who should write the tests for AI-generated code, and when?
