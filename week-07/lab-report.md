@@ -139,12 +139,12 @@ Assistant answer: revise T06 from false to true because AC2 permits the inclusiv
 ```text
  RUN  v2.1.9 C:/Users/Acer Nitro V15/se-practice/week-07/app
 
- ✓ src/booking.test.ts (17 tests) 15ms
+ ✓ src/booking.test.ts (17 tests) 9ms
 
  Test Files  1 passed (1)
       Tests  17 passed (17)
-   Start at  03:08:01
-   Duration  1.80s
+   Start at  03:36:23
+   Duration  851ms (transform 47ms, setup 0ms, collect 97ms, tests 9ms, environment 0ms, prepare 120ms)
 ```
 
 ---
@@ -179,7 +179,7 @@ All three changes reverted, then the full suite was run again: yes.
 | --- | --- | --- | --- | --- | --- |
 | U1 | Check 11:00–12:00, unblocked | Available and sample booking shown | AC5 | Available appeared and the 10:00–11:00 booking remained visible; saved as evidence/ui-1.jpg. | Pass |
 | U2 | Enable blocked and check again | Unavailable replaces earlier result | AC3, AC5 | Available changed to Unavailable; saved as evidence/ui-2.jpg. | Pass |
-| U3 | Clear a required input and submit | Understandable validation feedback | AC6 | The empty native time control reverted to 11:00 on submit, so the missing-input branch could not be reached. The blank field before submit is shown in evidence/ui-3.jpg. | Not testable |
+| U3 | Clear a required input and submit | Understandable validation feedback | AC6 | The time control redisplayed 11:00, but inline red feedback appeared, the old result cleared, and evidence/ui-3.jpg records it. | Pass |
 | U4 | Use phone width | Controls and result remain usable | AC6 | At 375 × 812, fields stacked vertically and the result and booking list remained readable; saved as evidence/ui-4.jpg. | Pass |
 | U5 | Repeat checks on same data | Existing bookings unchanged | AC5 | Rechecked with start 11:15; the 10:00–11:00 booking remained unchanged; saved as evidence/ui-5.jpg. | Pass |
 
@@ -191,17 +191,17 @@ All three changes reverted, then the full suite was run again: yes.
 
 | Check | Why it stays |
 | --- | --- |
-| none | All five screenshots are present. U3 remains Not testable in section 8 because the browser time control reverted before submission. |
+| none | All five screenshots are present, and U1–U5 are judged in section 8. |
 
 ### 9.2 Original and improved suites
 
 | Measure | First suite | Improved suite |
 | --- | --- | --- |
 | Executed / passed / failed | 17 / 16 / 1 | 17 / 17 / 0 |
-| Requirements with meaningful tests | AC1–AC5 and X1/X2; T06 expected value was wrong; AC6 is manual. | AC1–AC5 and X1/X2; AC6 is manual and empty-input feedback was not testable. |
+| Requirements with meaningful tests | AC1–AC5 and X1/X2; T06 expected value was wrong; AC6 is manual. | AC1–AC5 and X1/X2; AC6 is covered by the page check and screenshots. |
 | Selected mutants detected | Not run against failing first suite. | M1, M2 and M3 detected. |
 | Accepted / revised / rejected tests | Accepted real import and fixed fixtures; revised T06; rejected its incorrect expectation. | All 17 cases assert exact outcomes and include AC5 data preservation. |
-| Remaining limitations | T06 could have legitimized a wrong implementation. | Missing-input feedback could not be reached through this browser's time control; reversed existing-booking behavior has no AC. |
+| Remaining limitations | T06 could have legitimized a wrong implementation. | Reversed existing-booking behavior has no AC. |
 
 ### 9.3 What no AC decides
 
@@ -211,4 +211,4 @@ I called canBook with start 660, end 720, now 540, blocked false, and bookings [
 
 ## 10. Conclusion (120–180 words)
 
-The first suite's important mistake was T06: it expected a booking of exactly 120 minutes to be rejected. AC2 says only a duration longer than 120 minutes is rejected. The first run failed on that case, and checking the expected value against AC2 showed the test was wrong while canBook was right. I changed the test, not the implementation. The final run proves that the 17 named cases pass for the code that was run, including the tested time boundaries, overlaps, blocked state and unchanged booking list. It does not prove every possible booking input is correct, or that the page's feedback is clear in every browser. The defect trials provide evidence for three specific faults: the suite caught the duration cutoff, endpoint overlap and missing blocked-room check. The five screenshots show the states I inspected, including a portrait 375-pixel view. One manual limitation remains: this browser's time control reverted an empty field before submit, so I could not verify missing-input feedback. Behavior for malformed existing bookings is also unspecified by the criteria.
+The first suite's important mistake was T06: it expected a booking of exactly 120 minutes to be rejected. AC2 says only a duration longer than 120 minutes is rejected. The first run failed on that case, and checking the expected value against AC2 showed the test was wrong while canBook was right. I changed the test, not the implementation. The final run proves that the 17 named cases pass for the code that was run, including the tested time boundaries, overlaps, blocked state and unchanged booking list. It does not prove every possible booking input is correct, or that the page's feedback is clear in every browser. The defect trials provide evidence for three specific faults: the suite caught the duration cutoff, endpoint overlap and missing blocked-room check. The five screenshots show the states I inspected, including a portrait 375-pixel view and the page's required-field feedback. One limitation remains: behavior for malformed existing bookings is unspecified by the criteria.

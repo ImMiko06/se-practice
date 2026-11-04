@@ -50,22 +50,34 @@ export default function App() {
     setResult(ok);
   }
 
+  function clearFeedback() {
+    setResult(null);
+    setError('');
+  }
+
+  function reportMissingInput() {
+    setResult(null);
+    setError('Fill in the current time, the start and the end.');
+  }
+
   return (
     <main className="page">
       <h1>Smart Campus Room Availability</h1>
+      <form onSubmit={event => { event.preventDefault(); check(); }} onInvalidCapture={reportMissingInput}>
       <div className="row">
         <label>Room
           <select value={roomId} onChange={e => setRoomId(e.target.value)}>
             {ROOMS.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
           </select>
         </label>
-        <label>Current time<input type="time" value={now} onChange={e => setNow(e.target.value)} /></label>
-        <label>Start<input type="time" value={start} onChange={e => setStart(e.target.value)} /></label>
-        <label>End<input type="time" value={end} disabled={endOfDay} onChange={e => setEnd(e.target.value)} /></label>
-        <label className="inline"><input type="checkbox" checked={endOfDay} onChange={e => setEndOfDay(e.target.checked)} /> Ends at 24:00</label>
+        <label>Current time<input type="time" required value={now} onChange={e => { setNow(e.target.value); clearFeedback(); }} /></label>
+        <label>Start<input type="time" required value={start} onChange={e => { setStart(e.target.value); clearFeedback(); }} /></label>
+        <label>End<input type="time" required={!endOfDay} value={end} disabled={endOfDay} onChange={e => { setEnd(e.target.value); clearFeedback(); }} /></label>
+        <label className="inline"><input type="checkbox" checked={endOfDay} onChange={e => { setEndOfDay(e.target.checked); clearFeedback(); }} /> Ends at 24:00</label>
         <label className="inline"><input type="checkbox" checked={blocked} onChange={e => setBlocked(e.target.checked)} /> Room blocked</label>
       </div>
-      <button onClick={check}>Check availability</button>
+      <button type="submit">Check availability</button>
+      </form>
       {error && <p className="error">{error}</p>}
       {result !== null && (
         <p className={`result ${result ? 'available' : 'unavailable'}`}>{result ? 'Available' : 'Unavailable'}</p>

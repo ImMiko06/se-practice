@@ -6,9 +6,9 @@ Required by the course academic policy (Generative AI use level D).
 | --- | --- | --- | --- |
 | Codex desktop assistant | not displayed | Generated the first test suite in this conversation | suites/first/booking.test.ts, app/src/booking.test.ts |
 | Codex desktop assistant | not displayed | Reviewed the failed T06 expectation and suggested the repair | app/src/booking.test.ts, lab-report.md |
-| Codex desktop assistant | not displayed | Extracted canBook and prepared the report/disclosure | app/src/App.tsx, app/src/booking.ts, lab-report.md, AI_USAGE.md, submission.yml |
+| Codex desktop assistant | not displayed | Extracted canBook, added required-input feedback, and prepared the report/disclosure | app/src/App.tsx, app/src/booking.ts, lab-report.md, AI_USAGE.md, submission.yml |
 
-I used an assistant to extract canBook and fix a defect in it: yes, extraction only. I copied the existing decision conditions into booking.ts and checked the app's decision with the Vitest suite and the page import. No intended behavior fix was made.
+I used an assistant to extract canBook and improve the page's required-input validation: yes. I copied the existing booking conditions into booking.ts without changing their decision behavior. I also wrapped the inputs in a form with required fields, cleared stale results on edits, and added inline feedback for invalid submits. I checked the empty-start path in the browser: the old Available result cleared and the validation message appeared.
 
 I used another assistant as well: no.
 
