@@ -30,4 +30,13 @@ describe('assistant first suite: booking decisions', () => {
   });
   it('X1 AC1 ending at 24:00 is valid', () => expect(canBook(request(1420, 1440, { bookings: [] }))).toBe(true));
   it('X2 AC4 touching a second booking is allowed', () => expect(canBook(request(720, 750, { bookings: [{ start: 600, end: 660 }, { start: 750, end: 780 }] }))).toBe(true));
+  it('BUG-A AC4 a request touching bookings on both sides is available', () => {
+    expect(canBook(request(660, 720, { bookings: [{ start: 600, end: 660 }, { start: 720, end: 780 }] }))).toBe(true);
+  });
+  it('BUG-B AC5 an available non-touching request leaves bookings unchanged', () => {
+    const bookings = [{ start: 600, end: 660 }];
+    const before = structuredClone(bookings);
+    expect(canBook(request(720, 780, { bookings }))).toBe(true);
+    expect(bookings).toEqual(before);
+  });
 });
