@@ -89,16 +89,20 @@ Tests       6 failed | 13 passed (19)
 
 ## 4. Tasks 2–3 — the skill
 
-The prescribed hand-typed `SKILL.md` has **not** been created yet. The chat simulation did not install a skill file, so these file and ZIP checks remain incomplete.
+`SKILL.md` and its ZIP now exist, but Codex created the file from the deck's text after the student asked for it; it was **not typed by the student**. Claude still did not install it; the prompt-only simulation remains the comparison environment.
 
 | Check | yes / no |
 | --- | --- |
-| The file is plain UTF-8 text, named exactly `SKILL.md` (not `SKILL.md.txt`) | no — file not created yet |
-| The first and the closing YAML delimiter are exactly three hyphens: `---` | no — file not created yet |
-| `name` is lowercase with hyphens, and `description` says WHEN to use it | no — file not created yet |
-| I read the whole file once: no passwords, API keys or private student data | no — file not created yet |
+| The file is plain UTF-8 text, named exactly `SKILL.md` (not `SKILL.md.txt`) | yes — checked by Codex |
+| The first and the closing YAML delimiter are exactly three hyphens: `---` | yes — checked by Codex |
+| `name` is lowercase with hyphens, and `description` says WHEN to use it | yes — checked by Codex |
+| I read the whole file once: no passwords, API keys or private student data | no — student still needs to read and review it |
 
-**The contents of `skills/bug-detector.zip`:** not created yet. There is no ZIP listing to report.
+**The contents of `skills/bug-detector.zip`:**
+
+```text
+bug-detector/SKILL.md
+```
 
 **Installation.** Claude Skills upload was not available in the account/plan used for this task, so the README fallback was used. A fresh Claude chat was given the skill procedure as its first message, explicitly labelled “Prompt-only simulation, not an installed skill.” It acknowledged the procedure. A screenshot of that simulation is saved as `evidence/install.png`. No installed-skill badge was shown.
 
@@ -332,12 +336,11 @@ Duration    1.13s (transform 82ms, setup 0ms, collect 149ms, tests 14ms, environ
 
 ### 9.1 Checks I am keeping as FAIL or ERROR
 
-Latest checker run: 2026-11-05, `23 PASS · 1 FAIL · 7 ERROR` (31 checks). B6 now passes: `app/node_modules` was moved to the Recycle Bin through VS Code and is absent from the project. K1–K7 are errors because the required student hand-typed skill file and matching ZIP are not yet present. L3 fails because those skill-file checks and ZIP listing are not complete.
+Latest checker run: `30 PASS · 1 FAIL · 0 ERROR` (31 checks). B6 passes: `app/node_modules` was moved to the Recycle Bin through VS Code and is absent from the project. K1–K7 pass for the generated file and ZIP. L3 remains a fail because the student's personal read-through is not confirmed; Codex did not mark that first-person check yes.
 
 | Check | Why it stays |
 | --- | --- |
-| K1–K7 | The student must type the prescribed `SKILL.md` by hand and make the matching ZIP. Neither has been created yet. |
-| L3 | Section 4 honestly records that the four file checks and ZIP listing are incomplete; they cannot be marked yes until the student's hand-typed file exists. |
+| L3 | Section 4 says the student has not yet read the whole generated skill file. The student must review it and acknowledge the disclosure that Codex created it, not claim it was hand-typed. |
 
 ### 9.2 One limitation of AI-assisted debugging
 

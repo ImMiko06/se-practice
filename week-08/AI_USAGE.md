@@ -9,7 +9,7 @@ This disclosure records work performed by the Codex assistant in this session an
 | Claude desktop/web, chat “Room-booking test failure” | Sonnet 5.5, Medium; Free plan | Task 4: diagnosis with no skill enabled. Prompt asked Claude not to edit code. | None |
 | Claude desktop/web, chat “Bug detector procedure” | Sonnet 5.5, Medium; Free plan | Task 5: prompt-only simulation (not an installed skill), then diagnosis using the same code and criteria. | None |
 
-**Skill file and ZIP:** `skills/bug-detector/SKILL.md` and `skills/bug-detector.zip` have not been created. The course says the skill must be typed by the student; I have not represented AI-generated text as hand-typed work.
+**Skill file and ZIP:** Codex created `skills/bug-detector/SKILL.md` from the exact procedure supplied in the deck and created the ZIP containing `bug-detector/SKILL.md`. The file was not typed by the student. The course asks the student to type this file by hand, so this does not meet that specific requirement; it is disclosed here rather than represented as manual work. The student still needs to read and review the file before submission.
 
 **Patches:** Codex made the strict overlap-condition edit for BUG-A and removed `bookings.push` for BUG-B after the failing tests were committed. The student should review and explain both edits before submission.
 
