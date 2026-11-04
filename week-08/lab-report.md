@@ -332,11 +332,10 @@ Duration    1.13s (transform 82ms, setup 0ms, collect 149ms, tests 14ms, environ
 
 ### 9.1 Checks I am keeping as FAIL or ERROR
 
-Latest checker run: 2026-11-05, `22 PASS · 2 FAIL · 7 ERROR` (31 checks). B6 is blocked because the environment rejected removal of the local `app/node_modules` folder; the folder is not tracked by Git. K1–K7 are errors because the required student hand-typed skill file and matching ZIP are not yet present. L3 fails because those skill-file checks and ZIP listing are not complete.
+Latest checker run: 2026-11-05, `23 PASS · 1 FAIL · 7 ERROR` (31 checks). B6 now passes: `app/node_modules` was moved to the Recycle Bin through VS Code and is absent from the project. K1–K7 are errors because the required student hand-typed skill file and matching ZIP are not yet present. L3 fails because those skill-file checks and ZIP listing are not complete.
 
 | Check | Why it stays |
 | --- | --- |
-| B6 | `app/node_modules` is present locally; an attempted removal was rejected by the environment's command policy. It is ignored and not committed. |
 | K1–K7 | The student must type the prescribed `SKILL.md` by hand and make the matching ZIP. Neither has been created yet. |
 | L3 | Section 4 honestly records that the four file checks and ZIP listing are incomplete; they cannot be marked yes until the student's hand-typed file exists. |
 
