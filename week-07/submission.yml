@@ -26,7 +26,7 @@ checker:
   pass: 33
   fail: 0
   error: 0
-  commit: "4b94b3b"
+  commit: "446944d"
   known_fails: []
 
 assumptions:
@@ -35,7 +35,7 @@ assumptions:
 review_findings:
   - "T06: the first suite expected 720-840 to be rejected, but AC2 allows exactly 120 minutes"
   - "M2: T01 and T08 detect treating touching endpoints as overlap"
-  - "AC6: the browser time input did not let the empty-input feedback branch be verified"
+  - "AC6: an empty required time clears the old result and shows inline validation feedback"
 
 honesty:
   first_suite_unedited: "yes"
