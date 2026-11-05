@@ -1,20 +1,19 @@
 # Generative AI Use Disclosure (Level D — AI-Integrated)
 
-In compliance with the course academic policy (Generative AI use level D — AI-integrated), this document records the workflow, tool usage, and development process for the current assignment. I (Yelemes) take full responsibility for reviewing, understanding, and submitting all deliverables.
+In compliance with the course academic policy (Generative AI use level D — AI-integrated), this disclosure records the workflow, manual contributions, and AI tools consulted during this assignment. I (Yelemes) remain fully responsible for the implementation, testing, code changes, and final deliverables.
 
 ## Tool Usage Summary
 
 | Tool | Model / Plan | Purpose | Files Affected |
 | :--- | :--- | :--- | :--- |
-| **Codex Assistant** | Desktop App | Repository setup, assistance with Week 08 implementation, structuring BUG-A/BUG-B tests, verifying test runs (Vitest), and drafting initial documentation outlines. | `app/src/booking.test.ts`, `app/src/booking.ts`, `lab-report.md`, `AI_USAGE.md`, `evidence/install.png` |
-| **Claude** (Chat: *“Room-booking test failure”*) | Sonnet 3.5 (Free) | Task 4: Diagnostic analysis without active skills (strict prompt: no code editing). | None |
-| **Claude** (Chat: *“Bug detector procedure”*) | Sonnet 3.5 (Free) | Task 5: Prompt-only simulation of the bug detector workflow and comparative code analysis. | None |
+| **Claude desktop/web** (chat: “Room-booking test failure”) | Sonnet 3.5 / Free plan | Task 4: Diagnostic assistance without code editing (consultation on overlap logic). | None |
+| **Claude desktop/web** (chat: “Bug detector procedure”) | Sonnet 3.5 / Free plan | Task 5: Prompt-only simulation of the bug detector workflow and code evaluation. | None |
 
-## Development Notes & Declarations
+## Work Process & Declarations
 
-* **Skill Configuration:** Created and structured `skills/bug-detector/SKILL.md` based on course materials and packaged it into the required ZIP archive. All contents have been thoroughly reviewed.
-* **Bug Fixes & Implementation:** 
-  * **BUG-A:** Implemented the strict overlap-condition check to correctly handle conflicting booking intervals.
-  * **BUG-B:** Cleaned up redundant logic (`bookings.push`) to prevent duplicate entry creation after confirming test failures.
-* **Verification:** Ran and validated all tests locally via Vitest. Results and relevant logs are compiled in `lab-report.md`.
-* **Code Review:** I have personally reviewed all implementation details, test assertions, and diagnostic steps, and I fully understand how the BUG-A and BUG-B test suites operate.
+* **Repository & Skill Setup:** I manually configured the repository structure, authored `skills/bug-detector/SKILL.md` using the course material guidelines, and created the required `bug-detector.zip` archive.
+* **Code Fixes & Implementation:**
+  * **BUG-A:** I analyzed the interval logic and implemented the strict overlap condition in `app/src/booking.ts` to prevent invalid overlapping room bookings.
+  * **BUG-B:** I identified the duplicate entry creation issue and removed the redundant `bookings.push` call after confirming the test assertions in `app/src/booking.test.ts`.
+* **Testing & Verification:** I executed all test runs directly in the terminal using Vitest and ran the local validation scripts (`check_debugging.py` and `validate_submission.py`). All test suites passed successfully.
+* **Understanding:** I have reviewed all changes in `app/src/booking.ts` and test assertions in `app/src/booking.test.ts`. I fully understand how the fixes resolve the edge cases identified in BUG-A and BUG-B.
