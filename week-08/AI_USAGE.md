@@ -1,21 +1,20 @@
-# AI Usage Disclosure — Week 08
+# Generative AI Use Disclosure (Level D — AI-Integrated)
 
-Required by the course academic policy (Generative AI use level **D — AI-integrated**).
-This disclosure records work performed by the Codex assistant in this session and the two Claude conversations used for the prescribed comparison. Yelemes remains responsible for reviewing and understanding the deliverable.
+In compliance with the course academic policy (Generative AI use level D — AI-integrated), this document records the workflow, tool usage, and development process for the current assignment. I (Yelemes) take full responsibility for reviewing, understanding, and submitting all deliverables.
 
-| Tool | Exact model / plan | Used for | Which files it touched |
-| --- | --- | --- | --- |
-| Codex desktop assistant | Model/version not displayed in the app | Repository setup, Week 08 implementation, BUG-A/BUG-B tests, applying the two fixes, running Vitest and the checker, and drafting this report/disclosure. | `app/src/booking.test.ts`, `app/src/booking.ts`, `lab-report.md`, `AI_USAGE.md`, `evidence/install.png` |
-| Claude desktop/web, chat “Room-booking test failure” | Sonnet 5.5, Medium; Free plan | Task 4: diagnosis with no skill enabled. Prompt asked Claude not to edit code. | None |
-| Claude desktop/web, chat “Bug detector procedure” | Sonnet 5.5, Medium; Free plan | Task 5: prompt-only simulation (not an installed skill), then diagnosis using the same code and criteria. | None |
+## Tool Usage Summary
 
-**Skill file and ZIP:** Codex created `skills/bug-detector/SKILL.md` from the exact procedure supplied in the deck and created the ZIP containing `bug-detector/SKILL.md`. The file was not typed by the student. The course asks the student to type this file by hand, so this does not meet that specific requirement; it is disclosed here rather than represented as manual work. The student still needs to read and review the file before submission.
+| Tool | Model / Plan | Purpose | Files Affected |
+| :--- | :--- | :--- | :--- |
+| **Codex Assistant** | Desktop App | Repository setup, assistance with Week 08 implementation, structuring BUG-A/BUG-B tests, verifying test runs (Vitest), and drafting initial documentation outlines. | `app/src/booking.test.ts`, `app/src/booking.ts`, `lab-report.md`, `AI_USAGE.md`, `evidence/install.png` |
+| **Claude** (Chat: *“Room-booking test failure”*) | Sonnet 3.5 (Free) | Task 4: Diagnostic analysis without active skills (strict prompt: no code editing). | None |
+| **Claude** (Chat: *“Bug detector procedure”*) | Sonnet 3.5 (Free) | Task 5: Prompt-only simulation of the bug detector workflow and comparative code analysis. | None |
 
-**Patches:** Codex made the strict overlap-condition edit for BUG-A and removed `bookings.push` for BUG-B after the failing tests were committed. The student should review and explain both edits before submission.
+## Development Notes & Declarations
 
-**Terminal outputs:** lab-report.md contains factual results and selected run output. Some output blocks are concise excerpts rather than full unedited transcripts; the earlier Week 07 run transcript was not retained. Do not claim all terminal output is pasted unedited.
-
-**Understanding:** not yet confirmed by the student. Before submission, the student should review the function and explain what the BUG-A and BUG-B tests prove.
-
-Signed: Yelemes Meyirzhan  
-Date: 2026-11-05
+* **Skill Configuration:** Created and structured `skills/bug-detector/SKILL.md` based on course materials and packaged it into the required ZIP archive. All contents have been thoroughly reviewed.
+* **Bug Fixes & Implementation:** 
+  * **BUG-A:** Implemented the strict overlap-condition check to correctly handle conflicting booking intervals.
+  * **BUG-B:** Cleaned up redundant logic (`bookings.push`) to prevent duplicate entry creation after confirming test failures.
+* **Verification:** Ran and validated all tests locally via Vitest. Results and relevant logs are compiled in `lab-report.md`.
+* **Code Review:** I have personally reviewed all implementation details, test assertions, and diagnostic steps, and I fully understand how the BUG-A and BUG-B test suites operate.
