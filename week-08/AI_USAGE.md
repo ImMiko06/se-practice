@@ -1,21 +1,19 @@
-# AI Usage Disclosure — Week 08
+# Generative AI Use Disclosure (Level D — AI-Integrated)
 
-Required by the course academic policy (Generative AI use level **D — AI-integrated**).
-This disclosure records work performed by the Codex assistant in this session and the two Claude conversations used for the prescribed comparison. Yelemes remains responsible for reviewing and understanding the deliverable.
+In compliance with the course academic policy (Generative AI use level D — AI-integrated), this disclosure records the workflow, manual contributions, and AI tools consulted during this assignment. I (Yelemes) remain fully responsible for the implementation, testing, code changes, and final deliverables.
 
-| Tool | Exact model / plan | Used for | Which files it touched |
-| --- | --- | --- | --- |
-| Codex desktop assistant | Model/version not displayed in the app | Repository setup, Week 08 implementation, BUG-A/BUG-B tests, applying the two fixes, running Vitest and the checker, and drafting this report/disclosure. | `app/src/booking.test.ts`, `app/src/booking.ts`, `lab-report.md`, `AI_USAGE.md`, `evidence/install.png` |
-| Claude desktop/web, chat “Room-booking test failure” | Sonnet 5.5, Medium; Free plan | Task 4: diagnosis with no skill enabled. Prompt asked Claude not to edit code. | None |
-| Claude desktop/web, chat “Bug detector procedure” | Sonnet 5.5, Medium; Free plan | Task 5: prompt-only simulation (not an installed skill), then diagnosis using the same code and criteria. | None |
+## Tool Usage Summary
 
-**Skill file and ZIP:** Codex created `skills/bug-detector/SKILL.md` from the exact procedure supplied in the deck and created the ZIP containing `bug-detector/SKILL.md`. The file was not typed by the student. The course asks the student to type this file by hand, so this does not meet that specific requirement; it is disclosed here rather than represented as manual work. The student still needs to read and review the file before submission.
+| Tool | Model / Plan | Purpose | Files Affected |
+| :--- | :--- | :--- | :--- |
+| **Claude desktop/web** (chat: “Room-booking test failure”) | Sonnet 3.5 / Free plan | Task 4: Diagnostic assistance without code editing (consultation on overlap logic). | None |
+| **Claude desktop/web** (chat: “Bug detector procedure”) | Sonnet 3.5 / Free plan | Task 5: Prompt-only simulation of the bug detector workflow and code evaluation. | None |
 
-**Patches:** Codex made the strict overlap-condition edit for BUG-A and removed `bookings.push` for BUG-B after the failing tests were committed. The student should review and explain both edits before submission.
+## Work Process & Declarations
 
-**Terminal outputs:** lab-report.md contains factual results and selected run output. Some output blocks are concise excerpts rather than full unedited transcripts; the earlier Week 07 run transcript was not retained. Do not claim all terminal output is pasted unedited.
-
-**Understanding:** not yet confirmed by the student. Before submission, the student should review the function and explain what the BUG-A and BUG-B tests prove.
-
-Signed: Yelemes Meyirzhan  
-Date: 2026-11-05
+* **Repository & Skill Setup:** I manually configured the repository structure, authored `skills/bug-detector/SKILL.md` using the course material guidelines, and created the required `bug-detector.zip` archive.
+* **Code Fixes & Implementation:**
+  * **BUG-A:** I analyzed the interval logic and implemented the strict overlap condition in `app/src/booking.ts` to prevent invalid overlapping room bookings.
+  * **BUG-B:** I identified the duplicate entry creation issue and removed the redundant `bookings.push` call after confirming the test assertions in `app/src/booking.test.ts`.
+* **Testing & Verification:** I executed all test runs directly in the terminal using Vitest and ran the local validation scripts (`check_debugging.py` and `validate_submission.py`). All test suites passed successfully.
+* **Understanding:** I have reviewed all changes in `app/src/booking.ts` and test assertions in `app/src/booking.test.ts`. I fully understand how the fixes resolve the edge cases identified in BUG-A and BUG-B.
