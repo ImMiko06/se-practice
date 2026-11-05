@@ -1,0 +1,46 @@
+schema: 1
+week: "08"
+
+student:
+  name: "Yelemes Meyirzhan"
+  student_id: "24B031740"
+  github: "ImMiko06"
+
+assistant:
+  tool: "Claude"
+  model: "Sonnet 5.5, Medium"
+
+skill:
+  environment: "prompt-only"
+  invoked: "no"
+
+project:
+  language: "ts"
+  vitest: "2.1.9"
+
+counts:
+  tests_final: 19
+  buggy_failed: 4
+  defects_logged: 2
+  lines_changed: 2
+
+checker:
+  pass: 30
+  fail: 1
+  error: 0
+  commit: "c0d5a33"
+  known_fails: [L3]
+
+verdict:
+  skill_helped: "no-difference"
+
+review_findings:
+  - "BUG-A: inclusive endpoint comparisons rejected touching intervals; strict comparisons fixed the boundary cases."
+  - "BUG-B: the AC5 touching request failed before reaching the push, so BUG-B required a non-touching available request."
+  - "T01 and the BUG-A regression prove endpoint availability; BUG-B plus the Week 07 AC5 test prove the input array remains unchanged."
+
+honesty:
+  buggy_function_pasted_unchanged: "yes"
+  same_input_both_chats: "yes"
+  outputs_unedited: "no"
+  ai_usage_disclosed: "yes"
