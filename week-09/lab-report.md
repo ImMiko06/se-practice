@@ -128,7 +128,8 @@ Checkpoint: `35be4c1` (`Week 09: define the check_room schema`). To return to it
 
 ## 8. Checker output
 
-```textPASS  D1    tool/check_room.json exists and is valid JSON
+```text
+PASS  D1    tool/check_room.json exists and is valid JSON
 PASS  D2    has name, description and inputSchema
 PASS  D3    name is exactly "check_room"
 PASS  D4    description: 25+ words, says minutes, 1440, and that it does not save
@@ -160,9 +161,7 @@ PASS  L4    section 10: a conclusion of 80-150 words
 PASS  L5    AI_USAGE.md filled in (a tool row, and signed)
 
 SUMMARY: 30 PASS · 0 FAIL · 0 ERROR  (of 30 checks)
-Paste this whole output into lab-report.md section 8, and these three numbers into submission.yml.
 ```
-
 ## 9. What still fails
 
 Final checker: 30 PASS, 0 FAIL, 0 ERROR. I used one fresh Claude chat for each request and saved its reply as returned. No checker FAIL or ERROR remains.
