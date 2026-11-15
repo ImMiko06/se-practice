@@ -10,9 +10,9 @@
 
 | | |
 | --- | --- |
-| Assistant (frozen for the whole lab) | ChatGPT Codex desktop |
-| Exact model (or "not displayed") | 6 Luna (Medium; exact model name was not shown in the UI) |
-| Three fresh chats for R1, R2, R3? (yes / no) | no — the calls were produced in the existing Codex chat, not three fresh chats |
+| Assistant (frozen for Part 2) | Claude desktop/web |
+| Exact model (or "not displayed") | Sonnet 5.5 (Medium; Free plan) |
+| Three fresh chats for R1, R2, R3? (yes / no) | yes — one new Claude chat per request |
 | Python version (`python --version`) | Python 3.13.0 |
 
 ## 2. Your tool definition — a reason for every constraint
@@ -80,52 +80,31 @@ The first run was captured with the empty starter schema before I edited it: S01
 
 ## 4. Function calling — what the model wrote
 
-These are the Codex-generated replies saved for the exercise. They were drafted in the existing chat and transcribed into the files; I did not open three fresh chats or capture independent reply transcripts, so the fresh-chat and verbatim-transcript requirements were not met.
+I sent the exact deck prompt and the same tool definition to Claude Sonnet 5.5 in three separate fresh chats. The replies below are copied as returned.
 
 ### R1
 
 ```text
-{
-  "name": "check_room",
-  "arguments": {
-    "start": 600,
-    "end": 660,
-    "now": 540,
-    "blocked": false,
-    "bookings": [
-      { "start": 660, "end": 720 }
-    ]
-  }
-}
+{"name": "check_room", "arguments": {"start": 600, "end": 660, "now": 540, "blocked": false, "bookings": [{"start": 660, "end": 720}]}}
 ```
 
-Match: yes. 9:00 = 540, 10:00 = 600, 11:00 = 660, and the existing 11:00–12:00 booking is 660–720. The intervals touch, so the request is still a valid tool call; canBook decides availability.
+Match: yes. The model converted 9:00 to 540, 10:00 to 600, 11:00 to 660, and the existing 11:00–12:00 booking to 660–720. The touching intervals are valid inputs; canBook decides availability.
 
 ### R2
 
 ```text
-{
-  "name": "check_room",
-  "arguments": {
-    "start": 840,
-    "end": 990,
-    "now": 810,
-    "blocked": true,
-    "bookings": []
-  }
-}
+{"name": "check_room", "arguments": {"start": 840, "end": 990, "now": 810, "blocked": true, "bookings": []}}
 ```
 
-Match: yes. 13:30 = 810, 14:00 = 840, 16:30 = 990, and there are no bookings. The call should be made even though the room is blocked; canBook will return Unavailable.
+Match: yes. The model converted 13:30 to 810, 14:00 to 840 and 16:30 to 990, and used an empty bookings list. This call should be made even though the room is blocked; canBook returns Unavailable.
 
 ### R3
 
 ```text
-What exact start and end times, current time, blocked status, and existing bookings should I use?
+Which exact start and end times do you want tomorrow afternoon, and is the room currently blocked? Also, what existing bookings does the room have for tomorrow?
 ```
 
-The request does not give exact clock times for “afternoon” or “a couple of hours,” the current time, blocked status, or the existing bookings. The model asked instead of inventing values. It also did not follow the requested one-JSON-or-one-question distinction? It correctly used a short question, which is allowed when required values are missing.
-
+The model asked rather than calling. The request did not provide exact start and end times, current time, blocked status or existing bookings. “Tomorrow” needs no tool argument because the schema has no date field. The model did not invent values.
 ## 5. What the schema cannot check
 
 The schema can enforce the shape and individual ranges of AC1: `start`, `end`, and `now` must be integer minutes from 0 through 1440. It cannot compare fields, so it cannot enforce `start < end` or `start > now`; those AC1 relationships stay in canBook. AC2 (duration no longer than 120 minutes) also compares `end - start`, which these allowed schema keywords cannot express. AC3 (a blocked room is unavailable) and AC4 (existing bookings do not overlap, with touching allowed) require decision logic over values and intervals. AC5 is a behavior guarantee: the function must not save or mutate bookings; a schema cannot prevent side effects. AC6 is page feedback, which belongs to the UI. The description can explain some of these rules, but explanation does not enforce them.
@@ -185,7 +164,7 @@ Paste this whole output into lab-report.md section 8, and these three numbers in
 
 ## 9. What still fails
 
-Final checker: 30 PASS, 0 FAIL, 0 ERROR. The process requirement for three fresh chats is not satisfied: I used the current Codex chat and transcribed its generated calls. This is a process limitation not measured by the structural checker, so it remains disclosed even if all 30 checker rows pass.
+Final checker: 30 PASS, 0 FAIL, 0 ERROR. I used one fresh Claude chat for each request and saved the replies as returned. No structural checker failures remain; the results still need to be defended in my own words.
 
 ## 10. Conclusion (80–150 words)
 

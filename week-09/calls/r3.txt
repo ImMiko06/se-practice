@@ -1,1 +1,1 @@
-What exact start and end times, current time, blocked status, and existing bookings should I use?
+Which exact start and end times do you want tomorrow afternoon, and is the room currently blocked? Also, what existing bookings does the room have for tomorrow?
