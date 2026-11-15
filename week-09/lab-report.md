@@ -149,13 +149,44 @@ Checkpoint: `35be4c1` (`Week 09: define the check_room schema`). To return to it
 
 ## 8. Checker output
 
-Pending final run.
+PASS  D1    tool/check_room.json exists and is valid JSON
+PASS  D2    has name, description and inputSchema
+PASS  D3    name is exactly "check_room"
+PASS  D4    description: 25+ words, says minutes, 1440, and that it does not save
+PASS  D5    inputSchema: an object with exactly the five fields, all required
+PASS  D6    inputSchema uses only the keywords listed in README section 5
+PASS  S01   the R1 call, valid -> accept
+PASS  S02   no existing bookings: bookings = [] -> accept
+PASS  S03   end as a string: "11:00" -> refuse
+PASS  S04   now missing -> refuse
+PASS  S05   an extra field: "room": "204" -> refuse
+PASS  S06   start below the day: -30 -> refuse
+PASS  S07   end beyond the day: 1500 -> refuse
+PASS  S08   a booking with no end: {start: 660} -> refuse
+PASS  S09   blocked as a string: "false" -> refuse
+PASS  S10   start not a whole minute: 600.5 -> refuse
+PASS  S11   end at the end of the day: 1440 -> accept
+PASS  S12   a booking as a pair: [660, 720] -> refuse
+PASS  F1    calls\r1.json: a call to check_room
+PASS  F2    calls\r1.json: arguments valid against your schema
+PASS  F3    calls\r1.json: arguments equal the expected ones (README section 5, Part 2)
+PASS  F4    calls\r2.json: a call to check_room
+PASS  F5    calls\r2.json: arguments valid against your schema
+PASS  F6    calls\r2.json: arguments equal the expected ones (README section 5, Part 2)
+PASS  F7    calls/r3: exactly one of r3.json (it called) or r3.txt (it asked), not empty
+PASS  L1    section 5 names at least two acceptance criteria (AC1-AC6) the schema cannot check
+PASS  L2    section 6: A1-A8 each have allow / ask / block and a reason of 5+ words
+PASS  L3    section 7 names the checkpoint commit (a SHA)
+PASS  L4    section 10: a conclusion of 80-150 words
+PASS  L5    AI_USAGE.md filled in (a tool row, and signed)
+
+SUMMARY: 30 PASS · 0 FAIL · 0 ERROR  (of 30 checks)
+Paste this whole output into lab-report.md section 8, and these three numbers into submission.yml.
 
 ## 9. What still fails
 
-The process requirement for three fresh chats is not satisfied: I used the current Codex chat and transcribed its generated calls. This is a process limitation not measured by the structural checker, so it remains disclosed even if all 30 checker rows pass.
+Final checker: 30 PASS, 0 FAIL, 0 ERROR. The process requirement for three fresh chats is not satisfied: I used the current Codex chat and transcribed its generated calls. This is a process limitation not measured by the structural checker, so it remains disclosed even if all 30 checker rows pass.
 
 ## 10. Conclusion (80–150 words)
 
 This lab showed me that a tool schema checks the shape of a request, while the booking function decides whether the request makes sense. For example, the schema rejects `end` as the string `"11:00"`, but it cannot compare `start` with `end` or calculate whether a request lasts more than 120 minutes. R2 is a useful example: the model should still send a correctly formed call when `blocked` is true; canBook, not the schema, returns Unavailable. R3 showed why required fields matter: “tomorrow afternoon” does not supply exact minutes, current time, blocked status, or bookings, so asking is safer than guessing. I would also keep an agent away from `.env` and require review before behavior changes or destructive Git commands.
-
