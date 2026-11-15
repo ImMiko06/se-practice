@@ -104,7 +104,7 @@ Match: yes. The model converted 13:30 to 810, 14:00 to 840 and 16:30 to 990, and
 Which exact start and end times do you want tomorrow afternoon, and is the room currently blocked? Also, what existing bookings does the room have for tomorrow?
 ```
 
-The model asked rather than calling. The request did not provide exact start and end times, current time, blocked status or existing bookings. “Tomorrow” needs no tool argument because the schema has no date field. The model did not invent values.
+The model asked rather than calling. The request lacked exact start and end times, current time, blocked status and existing bookings. Claude asked about times, blocked status and bookings, but omitted the required current time (`now`) from its follow-up. A complete call still needs that value. “Tomorrow” needs no tool argument because the schema has no date field. The model did not invent values.
 ## 5. What the schema cannot check
 
 The schema can enforce the shape and individual ranges of AC1: `start`, `end`, and `now` must be integer minutes from 0 through 1440. It cannot compare fields, so it cannot enforce `start < end` or `start > now`; those AC1 relationships stay in canBook. AC2 (duration no longer than 120 minutes) also compares `end - start`, which these allowed schema keywords cannot express. AC3 (a blocked room is unavailable) and AC4 (existing bookings do not overlap, with touching allowed) require decision logic over values and intervals. AC5 is a behavior guarantee: the function must not save or mutate bookings; a schema cannot prevent side effects. AC6 is page feedback, which belongs to the UI. The description can explain some of these rules, but explanation does not enforce them.
@@ -128,7 +128,7 @@ Checkpoint: `35be4c1` (`Week 09: define the check_room schema`). To return to it
 
 ## 8. Checker output
 
-PASS  D1    tool/check_room.json exists and is valid JSON
+```textPASS  D1    tool/check_room.json exists and is valid JSON
 PASS  D2    has name, description and inputSchema
 PASS  D3    name is exactly "check_room"
 PASS  D4    description: 25+ words, says minutes, 1440, and that it does not save
@@ -161,11 +161,11 @@ PASS  L5    AI_USAGE.md filled in (a tool row, and signed)
 
 SUMMARY: 30 PASS · 0 FAIL · 0 ERROR  (of 30 checks)
 Paste this whole output into lab-report.md section 8, and these three numbers into submission.yml.
+```
 
 ## 9. What still fails
 
-Final checker: 30 PASS, 0 FAIL, 0 ERROR. I used one fresh Claude chat for each request and saved the replies as returned. No structural checker failures remain; the results still need to be defended in my own words.
-
+Final checker: 30 PASS, 0 FAIL, 0 ERROR. I used one fresh Claude chat for each request and saved its reply as returned. No checker FAIL or ERROR remains.
 ## 10. Conclusion (80–150 words)
 
-This lab showed me that a tool schema checks the shape of a request, while the booking function decides whether the request makes sense. For example, the schema rejects `end` as the string `"11:00"`, but it cannot compare `start` with `end` or calculate whether a request lasts more than 120 minutes. R2 is a useful example: the model should still send a correctly formed call when `blocked` is true; canBook, not the schema, returns Unavailable. R3 showed why required fields matter: “tomorrow afternoon” does not supply exact minutes, current time, blocked status, or bookings, so asking is safer than guessing. I would also keep an agent away from `.env` and require review before behavior changes or destructive Git commands.
+This lab showed me that a tool schema checks the shape of a request, while the booking function decides whether the request makes sense. For example, the schema rejects `end` as the string `"11:00"`, but it cannot compare `start` with `end` or calculate whether a request lasts more than 120 minutes. R2 is a useful example: the model should still send a correctly formed call when `blocked` is true; canBook, not the schema, returns Unavailable. R3 showed why required fields matter: “tomorrow afternoon” does not supply exact minutes, current time, blocked status, or bookings, so asking is safer than guessing. Claude's follow-up still omitted `now`, so another review against the schema was necessary. I would also keep an agent away from `.env` and require review before behavior changes or destructive Git commands.

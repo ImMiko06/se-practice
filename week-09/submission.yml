@@ -1,5 +1,3 @@
-# week-09/submission.yml — declaration for this lab.
-
 schema: 1
 week: "09"
 
@@ -9,9 +7,9 @@ student:
   github: ImMiko06
 
 assistant:
-  tool: ChatGPT Codex desktop
-  model: 6 Luna (Medium; version not displayed)
-  fresh_chats: no
+  tool: Claude desktop/web
+  model: Sonnet 5.5 (Medium; Free plan)
+  fresh_chats: yes
 
 calls:
   r3: asked
@@ -21,17 +19,17 @@ checker:
   pass: 30
   fail: 0
   error: 0
-  commit: f5dd467
+  commit: e23ef9a
   known_fails: []
 
 review_findings:
   - "S03 and S10: the schema refuses a string time and fractional minute, but it cannot compare start with end."
   - "R2: the call is valid with blocked true; the schema checks shape and canBook decides Unavailable."
-  - "R3: the model asked for exact times, current time, blocked status and bookings instead of inventing them."
+  - "R3: Claude asked for start/end, blocked status and bookings but omitted the required now field."
   - "A8: sending .env to an unknown MCP server could expose credentials, so the action is blocked."
 
 honesty:
   definition_written_by_me: no
-  calls_unedited: no
+  calls_unedited: yes
   outputs_unedited: yes
   ai_usage_disclosed: yes
