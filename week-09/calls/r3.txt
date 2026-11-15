@@ -1,0 +1,1 @@
+What exact start and end times, current time, blocked status, and existing bookings should I use?
