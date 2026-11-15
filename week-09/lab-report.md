@@ -161,6 +161,7 @@ PASS  L4    section 10: a conclusion of 80-150 words
 PASS  L5    AI_USAGE.md filled in (a tool row, and signed)
 
 SUMMARY: 30 PASS · 0 FAIL · 0 ERROR  (of 30 checks)
+Paste this whole output into lab-report.md section 8, and these three numbers into submission.yml.
 ```
 ## 9. What still fails
 
