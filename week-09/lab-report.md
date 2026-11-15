@@ -39,18 +39,18 @@ say what you changed.
 
 | Case | First run | Final run | What you changed |
 | --- | --- | --- | --- |
-| S01 | | | |
-| S02 | | | |
-| S03 | | | |
-| S04 | | | |
-| S05 | | | |
-| S06 | | | |
-| S07 | | | |
-| S08 | | | |
-| S09 | | | |
-| S10 | | | |
-| S11 | | | |
-| S12 | | | |
+| S01 | PASS | pending | valid R1 call accepted |
+| S02 | PASS | pending | empty bookings accepted |
+| S03 | FAIL | pending | baseline allowed end as string; will constrain end to integer |
+| S04 | FAIL | pending | baseline did not require now; will require all five fields |
+| S05 | FAIL | pending | baseline allowed extra top-level fields; will forbid them |
+| S06 | FAIL | pending | baseline allowed negative start; will bound minutes 0–1440 |
+| S07 | FAIL | pending | baseline allowed end after 1440; will bound minutes 0–1440 |
+| S08 | FAIL | pending | baseline allowed incomplete booking; will require its start and end |
+| S09 | FAIL | pending | baseline allowed blocked as string; will constrain it to boolean |
+| S10 | FAIL | pending | baseline allowed fractional start; will constrain it to integer |
+| S11 | PASS | pending | end at 1440 accepted |
+| S12 | FAIL | pending | baseline allowed bookings as a pair; will require object items |
 
 ## 4. Function calling — what the model wrote
 
@@ -119,3 +119,4 @@ Paste the **whole** output of your last `python tests/check_tool.py`, unedited.
 
 <!-- What did you learn about the line between the schema, the model and the function? Be specific:
      name a case, a request or an action. "Tool definitions are important" is worth nothing. -->
+
