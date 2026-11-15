@@ -5,7 +5,8 @@ I am responsible for checking, understanding, and defending the work submitted.
 
 | Tool | Exact model / plan | Used for | Which files it touched |
 | --- | --- | --- | --- |
-| ChatGPT Codex desktop | UI label: 6 Luna (Medium) | Drafted and reviewed the JSON Schema definition; generated the R1/R2 call JSON and R3 clarification reply in the existing chat; helped draft the report and declaration. Calls were not generated in three fresh chats. | tool/check_room.json, calls/r1.json, calls/r2.json, calls/r3.txt, lab-report.md, AI_USAGE.md, submission.yml |
+| ChatGPT Codex desktop | 6 Luna (Medium; model version not shown) | Part 2 — generated the R1/R2 call JSON and R3 clarification reply in the existing chat, then transcribed them into files; not three fresh chats. | calls/r1.json, calls/r2.json, calls/r3.txt, lab-report.md §4 |
+| ChatGPT Codex desktop | 6 Luna (Medium; model version not shown) | Parts 1, 3, 5–10 — drafted the tool definition, checker explanations, report text and declaration; reviewed constraints and checker output. | tool/check_room.json, lab-report.md, AI_USAGE.md, submission.yml |
 
 **I wrote `tool/check_room.json` myself:** no. Codex drafted it; I reviewed its fields, ranges, allowed keywords and checker results.
 
@@ -19,4 +20,5 @@ I am responsible for checking, understanding, and defending the work submitted.
 
 Signed: Yelemes Meyirzhan
 Date: 2026-11-15
+
 
