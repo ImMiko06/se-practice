@@ -1,9 +1,46 @@
 {
-  "name": "",
-  "description": "",
+  "name": "check_room",
+  "description": "Checks whether a requested room booking is available under the Smart Campus rules. All times are whole minutes since midnight, from 0 to 1440 inclusive (24:00). Provide the requested start and end, current time, blocked status, and existing bookings. This tool only checks availability; it does not create, change, or save a booking.",
   "inputSchema": {
     "type": "object",
-    "properties": {},
-    "required": []
+    "properties": {
+      "start": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 1440,
+        "description": "Requested start time as whole minutes since midnight."
+      },
+      "end": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 1440,
+        "description": "Requested end time as whole minutes since midnight; 1440 means 24:00."
+      },
+      "now": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 1440,
+        "description": "Current time as whole minutes since midnight."
+      },
+      "blocked": {
+        "type": "boolean",
+        "description": "Whether the room is blocked."
+      },
+      "bookings": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "start": { "type": "integer", "minimum": 0, "maximum": 1440 },
+            "end": { "type": "integer", "minimum": 0, "maximum": 1440 }
+          },
+          "required": ["start", "end"],
+          "additionalProperties": false
+        },
+        "description": "Existing bookings, each with start and end whole minutes; may be empty."
+      }
+    },
+    "required": ["start", "end", "now", "blocked", "bookings"],
+    "additionalProperties": false
   }
 }
