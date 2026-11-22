@@ -25,3 +25,10 @@ export function canBook({ start, end, now, blocked, bookings }: {
   // keep the room's list current with the slot that was just found free
   return true;
 }
+
+export function checkRoom(rooms: { id: string; blocked: boolean; bookings: { start: number; end: number }[] }[], roomId: string,
+  request: { start: number; end: number; now: number }): boolean {
+  const room = rooms.find(candidate => candidate.id === roomId);
+  if (!room) return false;
+  return canBook({ ...request, blocked: room.blocked, bookings: room.bookings });
+}

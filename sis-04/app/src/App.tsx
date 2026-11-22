@@ -1,17 +1,7 @@
-import { useState } from 'react';
-import { canBook } from './booking';
-
-// Starter for students with no Week 06 project. The availability decision lives INSIDE this
-// component on purpose: Task 1 of Practice #07 is to extract it into src/booking.ts as
-// canBook({ start, end, now, blocked, bookings }) without changing what the page does.
-
-type Interval = { start: number; end: number };
-type Room = { id: string; name: string; blocked: boolean; bookings: Interval[] };
-
-const ROOMS: Room[] = [
-  { id: 'a101', name: 'Room A-101', blocked: false, bookings: [{ start: 600, end: 660 }] },
-  { id: 'b204', name: 'Room B-204', blocked: false, bookings: [] },
-];
+import { useMemo, useState } from 'react';
+import { checkRoom } from './booking';
+import { filterRooms } from './filter';
+import { ROOMS } from './rooms';
 
 const toMinutes = (value: string) => {
   const [h, m] = value.split(':').map(Number);
@@ -20,70 +10,56 @@ const toMinutes = (value: string) => {
 const fmt = (m: number) => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
 
 export default function App() {
+  const [attendees, setAttendees] = useState(1);
+  const [equipment, setEquipment] = useState<string[]>([]);
   const [roomId, setRoomId] = useState('a101');
   const [now, setNow] = useState('09:00');
-  const [blocked, setBlocked] = useState(false);
   const [start, setStart] = useState('11:00');
   const [end, setEnd] = useState('12:00');
   const [endOfDay, setEndOfDay] = useState(false);
   const [result, setResult] = useState<boolean | null>(null);
   const [error, setError] = useState('');
+  const matches = useMemo(() => filterRooms(ROOMS, { attendees, equipment }), [attendees, equipment]);
+  const selected = matches.find(room => room.id === roomId) ?? matches[0];
 
-  const room = ROOMS.find(r => r.id === roomId)!;
-
+  function clearFeedback() { setResult(null); setError(''); }
+  function toggleEquipment(item: string) {
+    setEquipment(current => current.includes(item) ? current.filter(value => value !== item) : [...current, item]);
+    clearFeedback();
+  }
   function check() {
     setResult(null);
-    if (!start || !now || (!end && !endOfDay)) {
-      setError('Fill in the current time, the start and the end.');
+    if (!selected || !now || !start || (!end && !endOfDay)) {
+      setError('Fill in the current time, start and end.');
       return;
     }
-    const s = toMinutes(start);
-    const e = endOfDay ? 1440 : toMinutes(end);
-    const n = toMinutes(now);
-    if (!(s < e)) {
-      setError('The end time must be after the start time.');
-    } else {
-      setError('');
-    }
-
-    const ok = canBook({ start: s, end: e, now: n, blocked, bookings: room.bookings });
-    setResult(ok);
-  }
-
-  function clearFeedback() {
-    setResult(null);
+    const s = toMinutes(start), e = endOfDay ? 1440 : toMinutes(end), n = toMinutes(now);
+    if (!(s < e)) { setError('The end time must be after the start time.'); return; }
     setError('');
+    setResult(checkRoom(ROOMS, selected.id, { start: s, end: e, now: n }));
   }
 
-  function reportMissingInput() {
-    setResult(null);
-    setError('Fill in the current time, the start and the end.');
-  }
-
-  return (
-    <main className="page">
-      <h1>Smart Campus Room Availability</h1>
-      <form onSubmit={event => { event.preventDefault(); check(); }} onInvalidCapture={reportMissingInput}>
-      <div className="row">
-        <label>Room
-          <select value={roomId} onChange={e => setRoomId(e.target.value)}>
-            {ROOMS.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
-          </select>
-        </label>
-        <label>Current time<input type="time" required value={now} onChange={e => { setNow(e.target.value); clearFeedback(); }} /></label>
-        <label>Start<input type="time" required value={start} onChange={e => { setStart(e.target.value); clearFeedback(); }} /></label>
-        <label>End<input type="time" required={!endOfDay} value={end} disabled={endOfDay} onChange={e => { setEnd(e.target.value); clearFeedback(); }} /></label>
-        <label className="inline"><input type="checkbox" checked={endOfDay} onChange={e => { setEndOfDay(e.target.checked); clearFeedback(); }} /> Ends at 24:00</label>
-        <label className="inline"><input type="checkbox" checked={blocked} onChange={e => setBlocked(e.target.checked)} /> Room blocked</label>
-      </div>
-      <button type="submit">Check availability</button>
-      </form>
-      {error && <p className="error">{error}</p>}
-      {result !== null && (
-        <p className={`result ${result ? 'available' : 'unavailable'}`}>{result ? 'Available' : 'Unavailable'}</p>
-      )}
-      <h2>Existing bookings</h2>
-      <ul>{room.bookings.length ? room.bookings.map((b, i) => <li key={i}>{fmt(b.start)}–{fmt(b.end)}</li>) : <li>none</li>}</ul>
-    </main>
-  );
+  return <main className="page">
+    <h1>Smart Campus Room Availability</h1>
+    <div className="row">
+      <label>Attendees<input aria-label="Attendees" type="number" min="1" value={attendees} onChange={e => { setAttendees(Number(e.target.value)); clearFeedback(); }} /></label>
+      <fieldset><legend>Required equipment</legend>
+        {['projector', 'whiteboard'].map(item => <label className="inline" key={item}><input type="checkbox" checked={equipment.includes(item)} onChange={() => toggleEquipment(item)} />{item}</label>)}
+      </fieldset>
+      <label>Room<select aria-label="Room" value={selected?.id ?? ''} disabled={!matches.length} onChange={e => { setRoomId(e.target.value); clearFeedback(); }}>
+        {matches.map(room => <option key={room.id} value={room.id}>{room.name}{room.blocked ? ' (blocked)' : ''}</option>)}
+      </select></label>
+      <label>Current time<input aria-label="Current time" type="time" required value={now} onChange={e => { setNow(e.target.value); clearFeedback(); }} /></label>
+      <label>Start<input aria-label="Start" type="time" required value={start} onChange={e => { setStart(e.target.value); clearFeedback(); }} /></label>
+      <label>End<input aria-label="End" type="time" required={!endOfDay} value={end} disabled={endOfDay} onChange={e => { setEnd(e.target.value); clearFeedback(); }} /></label>
+      <label className="inline"><input type="checkbox" checked={endOfDay} onChange={e => { setEndOfDay(e.target.checked); clearFeedback(); }} />Ends at 24:00</label>
+    </div>
+    <button type="button" onClick={check} disabled={!selected}>Check availability</button>
+    {error && <p className="error">{error}</p>}
+    {result !== null && <p className={`result ${result ? 'available' : 'unavailable'}`}>{result ? 'Available' : 'Unavailable'}</p>}
+    <h2>Matching rooms</h2>
+    {!matches.length ? <p role="status">No rooms match these requirements.</p> : <ul>{matches.map(room => <li key={room.id}>{room.name} — {room.capacity} seats; {room.equipment.join(', ') || 'no equipment'}{room.blocked ? ' — blocked' : ''}</li>)}</ul>}
+    <h2>Selected room bookings</h2>
+    {!selected ? <p>No room selected.</p> : <ul>{selected.bookings.length ? selected.bookings.map((b, i) => <li key={i}>{fmt(b.start)}–{fmt(b.end)}</li>) : <li>none</li>}</ul>}
+  </main>;
 }
