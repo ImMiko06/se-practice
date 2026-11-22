@@ -215,83 +215,33 @@ Production build: npm run build; tsc and Vite build completed successfully (Vite
 
 ## 8. AI evidence appendix
 
-<!-- At least three exchanges, one ### 8.N block each: the analysis (Task 1), the plan, and at
-     least one implementation, refactoring or test exchange. Copy the block for more.
-     The prompt as you sent it; the output may be cut to the part you used, with "[…]" where
-     you cut. Verified by: the test, run, file or check that confirmed it — not "it looked right". -->
-
 ### 8.1 Exchange 1
 
-**Tool and model:** Codex (GPT-6)
+**Tool and model:** Codex desktop, GPT-6
 **Date:** 2026-11-22
-**Purpose:** SIS #04 code and test assistance in this session.
+**Purpose:** SIS #04 analysis, implementation, testing and documentation support.
 
 **Prompt:**
 
 ```text
-Codex identified the app structure and risks, wrote catalog/filter/checkRoom changes and a test file. This is a summary, not a fabricated verbatim transcript.
+давай SIS 4 унас есть всего 10 минут давай сделаем быстрее. SIS #04 asks to extend Smart Campus with a room catalog and filters, refactor modules, preserve AC1-AC6, add tests and evidence, fill the report and disclosure, and create an open pull request. AI use is required and must be disclosed.
 ```
 
 **Output used:**
 
 ```text
-(paste here)
+The assistant inspected the existing repository, recorded maintainability risks and a plan, added four fictional rooms, pure capacity/equipment filtering, room-specific booking checks, and 15 Vitest tests. It ran the suite and production build, then the course checker identified missing screenshots and insufficient exchange records.
 ```
 
-**Problems found:** The initial submission still lacked the required screenshots, complete report, and app README.
-**Changes made:** Added 15 SIS tests, README, and PlantUML diagrams; retained explicit evidence gaps.
-**Verified by:** Vitest 34/34 and successful production build; checker run recorded in §9.
+**Problems found:** Initial report content had missing sections and evidence; the generated draft needed correction.
+**Changes made:** Added modular catalog/filter/booking changes and tests, then ran the actual commands and checker.
+**Verified by:** Actual Vitest output 34/34 and successful npm build; checker output recorded in §9.
 
 ### 8.2 Exchange 2
-Not performed in this session. I will not invent a prompt or AI output.
+Not performed. No prompt or output is claimed.
 
 ### 8.3 Exchange 3
-Not performed in this session. I will not invent a prompt or AI output.
-
-<!-- Template retained below for transparent checker result. -->
-<!-- ### 8.3 Exchange 3 -->
-
-**Tool and model:** (write here)
-**Date:** (write here)
-**Purpose:** (write here)
-
-**Prompt:**
-
-```text
-(paste here)
-```
-
-**Output used:**
-
-```text
-(paste here)
-```
-
-**Problems found:** (write here)
-**Changes made:** (write here)
-**Verified by:** (write here)
-
-### 8.3 Exchange 3
-
-**Tool and model:** (write here)
-**Date:** (write here)
-**Purpose:** (write here)
-
-**Prompt:**
-
-```text
-(paste here)
-```
-
-**Output used:**
-
-```text
-(paste here)
-```
-
-**Problems found:** (write here)
-**Changes made:** (write here)
-**Verified by:** (write here)
+Not performed. No prompt or output is claimed.
 
 ## 9. Checker results and known fails
 
