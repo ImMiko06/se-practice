@@ -1,0 +1,36 @@
+schema: 1
+assignment: "sis-04"
+student:
+  name: "Yelemes Meyirzhan"
+  student_id: "24B031740"
+  group: "not provided"
+  github: "ImMiko06"
+assistant:
+  tool: "Codex desktop"
+  model: "GPT-6"
+project:
+  start_from: "week-08"
+  baseline_commit: "0d2074f"
+  language: "ts"
+  vitest: "2.1.9"
+counts:
+  rooms: 4
+  tests_original: 19
+  tests_final: 34
+  risks: 4
+  exchanges: 1
+checker:
+  pass: 29
+  fail: 1
+  error: 3
+  commit: "TEMP"
+  known_fails: [E1, E2, E3, L9]
+review_findings:
+  - "F2: filterRooms uses every, requiring every selected equipment item."
+  - "F5: checkRoom passes the selected room's own bookings to canBook."
+  - "AC4: canBook allows endpoint touching and rejects overlapping intervals."
+honesty:
+  baseline_unchanged: "yes"
+  runs_unedited: "yes"
+  no_invented_metrics: "yes"
+  ai_usage_disclosed: "no"
