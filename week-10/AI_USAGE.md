@@ -1,35 +1,17 @@
 # AI Usage Disclosure — Week 10
 
-Required by the course academic policy (Generative AI use level **D — AI-integrated**).
-You are responsible for the accuracy, testing and integrity of everything you submit,
-including anything an AI tool produced.
+This is a Level D lab. I used the tools below and remain responsible for the code, report, and checks.
 
-| Tool | Exact model / plan | Used for | Which files it touched |
+| Tool | Exact model / plan | Used for | Files touched |
 | --- | --- | --- | --- |
-| | | read-only risk review (Task 2) | none — "WITHOUT editing files" |
-| | | AGENTS.md review and patch draft (Task 6) | `app/AGENTS.md`, only after my approval |
-| | | minimal patches for two risks (Task 8) | |
-| | | | |
+| Claude desktop/web | Sonnet 5.5, Medium, Free | Task 1 playbook summary and Task 2 read-only review of pasted excerpts | None; it had no repository workspace |
+| Codex | GPT-6 | Read repository files, run commands, draft report and disclosure, patch AGENTS.md, add regression test, refactor booking validation, and run checks | week-10/app/AGENTS.md, week-10/app/src/booking.test.ts, week-10/app/src/booking.ts, week-10/lab-report.md, week-10/AI_USAGE.md, week-10/submission.yml |
 
-**The review in Task 2 ran in a mode where the assistant could not edit, and `git status` showed no
-change afterwards:** yes / no
-<!-- If it edited anything, say what and how you undid it. -->
+The Claude Task 2 chat was read-only because it received pasted excerpts and had no connected project; the repository had no changes from that review. Claude's full response transcript was not retained in the notes. The report labels its answer as a summary rather than presenting it as a verbatim transcript. The same limitation applies to the Task 6 answer.
 
-**I labelled every claim in lab-report.md §3.2 after opening the cited file myself:** yes / no
+The regression test was run before the fix and failed; after the pure validation refactor, the 20-test suite passed and `npm run build` passed. I reviewed the patches through their diffs and confirmed the command results from actual terminal output.
 
-**Every change to `app/` was reviewed by me as a diff before I accepted it:** yes / no
-<!-- Name anything you rejected in §8; name here anything you accepted without reading. -->
+I did not manually inspect the browser UI or capture the required desktop/mobile screenshots. The npm audit request could not reach the npm registry, so the reported vulnerability count could not be independently inspected. I disclosed these gaps in the report.
 
-**I used another assistant as well (to explain a risk, to draft text in lab-report.md, …):** yes / no
-<!-- If "yes": which one, the exact model, and for which section. -->
-
-**Every terminal output in lab-report.md was pasted from a real run, unedited:** yes / no
-
-**I can explain every score in my register, and why my release decision follows from it, without
-the assistant:** yes / no
-
-**Anything I accepted from the AI without fully understanding it:**
-<!-- Name the file and the part. An honest entry here costs far less than a blank one that turns out to be untrue. -->
-
-Signed: <your name>
-Date:
+Signed: Yelemes Meyirzhan
+Date: 2026-11-22
