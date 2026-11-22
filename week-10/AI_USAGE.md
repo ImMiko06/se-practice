@@ -11,7 +11,7 @@ The Claude Task 2 chat was read-only because it received pasted excerpts and had
 
 The regression test was run before the fix and failed; after the pure validation refactor, the 20-test suite passed and `npm run build` passed. I reviewed the patches through their diffs and confirmed the command results from actual terminal output.
 
-I manually inspected the desktop UI at 1280 px: the default request showed legible Available feedback and the content fit. Then I toggled Room blocked and confirmed stale Available feedback remained visible. I did not inspect a phone-width viewport or save the required screenshot files. The npm audit request could not reach the npm registry, so the reported vulnerability count could not be independently inspected. I disclosed these gaps in the report.
+The student supplied desktop and responsive mobile screenshots. I saved them as `evidence/ui-desktop.png` and `evidence/ui-mobile.png` and inspected them: the desktop view shows clear Unavailable feedback, and the mobile view stacks the fields with the bookings list visible. The earlier manual interaction also showed stale Available feedback after toggling Room blocked; this remains an open risk in the report. The npm audit request could not reach the registry, so the reported vulnerability count could not be independently inspected.
 
 Signed: Yelemes Meyirzhan
 Date: 2026-11-22

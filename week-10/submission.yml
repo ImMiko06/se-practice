@@ -33,11 +33,11 @@ decision:
   release: "conditional"
 
 checker:
-  pass: 28
-  fail: 1
-  error: 2
-  commit: "4208ed9"
-  known_fails: [B2, E1, E2]
+  pass: 31
+  fail: 0
+  error: 0
+  commit: "4790c5b"
+  known_fails: []
 
 review_findings:
   - "R1: canBook accepted 720.5 before the new regression and rejects the fractional minute after the pure validation change."

@@ -246,13 +246,13 @@ AssertionError: expected true to be false // Object.is equality
 
 | View | Width | What I checked | Result | Screenshot |
 | --- | --- | --- | --- | --- |
-| Desktop | 1280 px | Submitted the default 11:00–12:00 query; checked for clipping and feedback | Pass: Available is legible, form and booking fit | not saved to evidence file |
-| Mobile | not checked | Did not set a phone-width viewport | not run | not captured |
+| Desktop | 1227 × 528 px | Checked form layout and blocked-room response | Pass: Unavailable feedback is legible; controls and booking fit | `evidence/ui-desktop.png` |
+| Mobile | Responsive 400 px | Checked the stacked form and bookings list for clipping | Pass: fields and list fit in the mobile viewport | `evidence/ui-mobile.png` |
 
 ### 7.3 Tests and checks I did not run
 
 <!-- Name each one and why. "None" only if it is true. -->
-- Mobile UI inspection and both required screenshot files were not completed. npm audit attempted but registry DNS failed, so advisories were not verified. No browser integration test or lint ran; neither is configured.
+- npm audit was attempted but registry DNS failed, so advisories were not verified. No browser integration test or lint ran; neither is configured. Screenshots are manual visual evidence, not automated integration tests.
 
 ---
 
@@ -349,9 +349,7 @@ Use the same IDs as `known_fails` in `submission.yml`. Write `none` if the run i
 
 | Check | Why it stays |
 | --- | --- |
-| E1/E2 | Required desktop/mobile screenshot files were not saved; mobile review is also still pending. |
-| L3/L9 | Full verbatim Claude answers were not retained; report labels answers as summaries. |
-| B2 | Generated node_modules/dist are untracked locally and were not staged. |
+| none | The final checker run is recorded in submission.yml; all 31 checks pass. The missing verbatim Claude transcripts remain disclosed elsewhere. |
 
 ---
 
@@ -368,4 +366,4 @@ Use the same IDs as `known_fails` in `submission.yml`. Write `none` if the run i
      2 x 2 = 4) is open, owned by me, controlled by the AC1 test. The UI was checked at two widths,
      but no test covers App.tsx, so a regression there would be invisible." -->
 
-The release decision is CONDITIONAL. R2 started at 3×3 because the supplied playbook permitted external production deployment and scope expansion; I removed those directions, but repository text cannot stop a person from deploying manually. R1 started at 3×2: a fractional minute passed the pure booking rule, and the new regression test demonstrated it. The pure validation helper now rejects fractional input, and the final 20-test suite plus production build pass. The readiness audit is Level 0 because only three of five baseline checks exist. I did not complete manual desktop/mobile UI inspection or capture screenshots, and the Claude review transcripts in my notes are summaries rather than full verbatim answers. Those evidence gaps must be closed before calling this release ready.
+The release decision is CONDITIONAL. R2 started at 3×3 because the supplied playbook permitted external production deployment and scope expansion; I removed those directions, but repository text cannot stop a person from deploying manually. R1 started at 3×2: a fractional minute passed the pure booking rule, and the new regression test demonstrated it. The pure validation helper now rejects fractional input, and the final 20-test suite plus production build pass. The readiness audit is Level 0 because only three of five baseline checks exist. The desktop and mobile screenshots show clear feedback and the stacked mobile form without visible clipping. I still could not verify npm audit advisories because registry DNS failed, and the full Claude review transcripts were not retained. I would require a connected dependency audit before a GO decision.
