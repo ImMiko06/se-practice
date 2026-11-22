@@ -15,6 +15,7 @@ describe('assistant first suite: booking decisions', () => {
   it('T05 AC1 after day end is unavailable', () => expect(canBook(request(1380, 1441))).toBe(false));
   it('T06 AC2 exactly 120 minutes is available', () => expect(canBook(request(720, 840))).toBe(true));
   it('T07 AC2 121 minutes is unavailable', () => expect(canBook(request(720, 841))).toBe(false));
+  it('R1 AC1 fractional minute inputs are unavailable', () => expect(canBook(request(720.5, 780, { bookings: [] }))).toBe(false));
   it('T08 AC4 touching before is available', () => expect(canBook(request(570, 600))).toBe(true));
   it('T09 AC4 partial overlap is unavailable', () => expect(canBook(request(630, 690))).toBe(false));
   it('T10 AC4 containing booking is unavailable', () => expect(canBook(request(570, 690))).toBe(false));
