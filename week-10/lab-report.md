@@ -104,7 +104,7 @@ inspected** is what you opened or ran yourself. **Label:** `confirmed`, `plausib
 | # | The AI's claim (short) | Category | What I inspected | Label | Why |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Touching endpoints treated as overlap | Correctness | Opened canBook; tested T01/T08 and AC4 contract | unsupported | The inequality allows endpoints to touch and tests expect available; the playbook statement is false. |
-| 2 | Blocked toggle leaves stale feedback | Correctness | Read App.tsx checkbox onChange | confirmed | Handler only setBlocked and does not clear the displayed result/error. |
+| 2 | Blocked toggle leaves stale feedback | Correctness | Read App.tsx and manually checked Available then toggled Room blocked | confirmed | UI still displayed Available with blocked checkbox selected. |
 | 3 | Production deploy and broad edits risk | Agent operations | Read provided and patched AGENTS.md; confirmed netlify --prod directive | confirmed | The instruction can cause an unreviewed external production release. |
 | 4 | test:unit command missing | Reliability | Read package.json and ran the command | confirmed | Scripts contain test, not test:unit; command returns missing script. |
 | 5 | Fractional minutes accepted | Correctness | Read canBook and added failing R1 test | confirmed | 720.5 was accepted with no bookings, though the helper models whole-minute time. |
@@ -124,7 +124,7 @@ categories. **Score = L × I.** **Component** is a path inside `app/` or `missin
 | R1 | Correctness | Fractional time passes validation → invalid minute slot is reported available | src/booking.ts canBook | Failing R1 test: 720.5 returned true | confirmed | 3 | 2 | 6 | Validate whole-minute inputs in extracted pure guard | Student | R1 test fails before and passes after; full Vitest suite |
 | R2 | Agent operations | Unsafe playbook → agent deploys or adds auth/data → public unreviewed change | AGENTS.md | Explicit netlify --prod, Supabase/login and arbitrary edits | confirmed | 3 | 3 | 9 | Minimal approved playbook patch prohibiting deploy/data/auth and restricting scope | Student | Diff audit; checker A2/A3/C1-C6 |
 | R3 | Reliability | Stale test command → agent cannot verify → bad change accepted | AGENTS.md | test:unit absent from package.json; command fails | confirmed | 2 | 2 | 4 | Use existing npm test in playbook | Student | Run npm test |
-| R4 | Correctness | Blocked checkbox does not clear result → stale Available remains visible | src/App.tsx | Checkbox change handler only calls setBlocked | confirmed | 2 | 2 | 4 | Clear feedback when blocked state changes | Student | Manual interaction or UI test (not completed) |
+| R4 | Correctness | Blocked checkbox does not clear result → stale Available remains visible | src/App.tsx | Manually checked Available, then selected Room blocked; Available stayed visible | confirmed | 2 | 2 | 4 | Clear feedback when blocked state changes | Student | Manual browser interaction reproduced stale result |
 | R5 | Security | Dependency advisories may remain → vulnerable dependency used → exposure | package.json | npm install reported 6 vulnerabilities; npm audit could not reach registry | plausible | 2 | 3 | 6 | Re-run npm audit with network and review exact advisories | Student | Successful npm audit in connected environment |
 | R6 | Privacy | Agent uses real timetable → personal schedule exposed or inaccurate | AGENTS.md | Real KBTU portal data instruction conflicts with fictional-only scope | confirmed | 2 | 2 | 4 | Prohibit real portal data; use fictional room/bookings | Student | Inspect fixtures and instruction |
 
@@ -246,13 +246,13 @@ AssertionError: expected true to be false // Object.is equality
 
 | View | Width | What I checked | Result | Screenshot |
 | --- | --- | --- | --- | --- |
-| Desktop | not captured | Manual browser review not completed | not run | not captured |
-| Mobile | not captured | Phone-width review not completed | not run | not captured |
+| Desktop | 1280 px | Submitted the default 11:00–12:00 query; checked for clipping and feedback | Pass: Available is legible, form and booking fit | not saved to evidence file |
+| Mobile | not checked | Did not set a phone-width viewport | not run | not captured |
 
 ### 7.3 Tests and checks I did not run
 
 <!-- Name each one and why. "None" only if it is true. -->
-- UI inspection/screenshots not completed. npm audit attempted but registry DNS failed, so advisories were not verified. No browser integration test or lint ran; neither is configured.
+- Mobile UI inspection and both required screenshot files were not completed. npm audit attempted but registry DNS failed, so advisories were not verified. No browser integration test or lint ran; neither is configured.
 
 ---
 
@@ -349,7 +349,7 @@ Use the same IDs as `known_fails` in `submission.yml`. Write `none` if the run i
 
 | Check | Why it stays |
 | --- | --- |
-| E1/E2/L10 | Manual UI inspection and screenshots were not captured. |
+| E1/E2 | Required desktop/mobile screenshot files were not saved; mobile review is also still pending. |
 | L3/L9 | Full verbatim Claude answers were not retained; report labels answers as summaries. |
 | B2 | Generated node_modules/dist are untracked locally and were not staged. |
 
